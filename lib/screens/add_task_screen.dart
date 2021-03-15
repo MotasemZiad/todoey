@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todoey/constants.dart';
-import 'package:todoey/models/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/models/app_provider.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  final Function addTaskCallback;
-  final textFieldController = TextEditingController();
   String taskName;
-
-  AddTaskScreen(this.addTaskCallback);
 
   Widget build(BuildContext context) {
     return Container(
@@ -30,7 +27,6 @@ class AddTaskScreen extends StatelessWidget {
             ),
             TextField(
               textAlign: TextAlign.center,
-              controller: textFieldController,
               cursorHeight: 22.0,
               enableSuggestions: true,
               autofocus: true,
@@ -43,8 +39,8 @@ class AddTaskScreen extends StatelessWidget {
             ),
             FlatButton(
               onPressed: () {
-                addTaskCallback(taskName);
-                textFieldController.clear();
+                Provider.of<AppProvider>(context, listen: false)
+                    .addNewTask(taskName);
                 Navigator.pop(context);
               },
               height: 48.0,
